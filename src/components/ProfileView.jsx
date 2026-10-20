@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { User, Award, Flame, Target, Book, ArrowLeft, Camera } from 'lucide-react';
+import { User, Award, Flame, Target, Book, ArrowLeft, Camera, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api/client';
 
 // Frases inspiradoras relacionadas al concepto de "Koru" (crecimiento, paz, naturaleza)
@@ -23,6 +24,8 @@ export default function ProfileView({ onVolver, mostrarToast }) {
 
   const [editandoAvatar, setEditandoAvatar] = useState(false);
   const [nuevaUrlAvatar, setNuevaUrlAvatar] = useState('');
+
+  const navigate = useNavigate();
 
   // Elegir una frase basada en el día del mes para que cambie a diario
   const diaMes = new Date().getDate();
@@ -61,6 +64,11 @@ export default function ProfileView({ onVolver, mostrarToast }) {
     } catch (err) {
       mostrarToast('No se pudo guardar la foto', 'error');
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
   if (cargando) {
@@ -198,6 +206,32 @@ export default function ProfileView({ onVolver, mostrarToast }) {
               <span style={{ fontSize: '1.8rem', fontWeight: 800, color: '#2d3142' }}>{stats.total_cuadernos}</span>
             </div>
           </div>
+
+          {/* Botón de Cerrar Sesión */}
+          <button
+            onClick={handleLogout}
+            style={{
+              width: '100%',
+              marginTop: '2rem',
+              padding: '0.85rem',
+              backgroundColor: '#fff5f5',
+              color: '#d64550',
+              border: '1px solid #fecdd3',
+              borderRadius: '12px',
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '0.5rem',
+              cursor: 'pointer',
+              transition: 'background-color 0.2s'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#ffe4e6'}
+            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fff5f5'}
+          >
+            <LogOut size={18} />
+            Cerrar Sesión
+          </button>
         </div>
       </div>
     </div>
