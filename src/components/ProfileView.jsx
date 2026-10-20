@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { User, Award, Flame, Target, Book, ArrowLeft, Camera, LogOut } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import api from '../api/client';
 
 // Frases inspiradoras relacionadas al concepto de "Koru" (crecimiento, paz, naturaleza)
@@ -24,8 +23,6 @@ export default function ProfileView({ onVolver, mostrarToast }) {
 
   const [editandoAvatar, setEditandoAvatar] = useState(false);
   const [nuevaUrlAvatar, setNuevaUrlAvatar] = useState('');
-
-  const navigate = useNavigate();
 
   // Elegir una frase basada en el día del mes para que cambie a diario
   const diaMes = new Date().getDate();
@@ -68,7 +65,7 @@ export default function ProfileView({ onVolver, mostrarToast }) {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    navigate('/login');
+    window.location.reload(); // Al recargar la página limpia y sin token, tu app te regresará a la pantalla inicial
   };
 
   if (cargando) {
